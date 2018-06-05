@@ -6,6 +6,7 @@ Feature:
 
   Scenario: Add a new player
     When I enter the player name
-    And  the player already exists in of the player lists
+    And  the player already exists in one of the player lists
     Then I should be informed that the player already exists
+    And I should be given the option to go back to the previous menu
 
