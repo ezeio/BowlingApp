@@ -1,5 +1,5 @@
 package com.app.validator;
 
-public interface Validator {
+public interface GameValidator {
     boolean isNumberOfPlayersValid(int numberOfPlayers);
 }

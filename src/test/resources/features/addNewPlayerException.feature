@@ -1,8 +1,8 @@
-Feature:
+Feature: Add new player exception
   Background:
-    Given I have selected a new game
-    And I have selected number of players between one and four inclusive
-    Then I am asked to add a new player
+    Given I have started a new game
+    And I have selected the number of players i desire
+    Then A request is made to add a new player
 
   Scenario: Add a new player
     When I enter the player name

@@ -21,7 +21,7 @@ public class NewGame {
     private GameDisplay gameDisplay = new TenPinGameDisplay();
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-    private ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n4".getBytes());
+    private ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n2\n2\nhenry\nozomena\n2\nchinasa\nnwafor\n".getBytes());
 
     @Given("^The user is ready to start a new game$")
     public void theUserIsReadyToStartANewGame() throws Throwable {
@@ -46,13 +46,13 @@ public class NewGame {
 
     @Then("^I provide the number of players$")
     public void iProvideTheNumberOfPlayers() throws Throwable {
-        //The second input in the byte stream (4) is provided to denote the provision of four players
+        //The second input in the byte stream (2) is provided to denote the provision of four players
     }
 
     @And("^a new game play is created for the number of players$")
     public void aNewGamePlayIsCreatedForTheNumberOfPlayers() throws Throwable {
         assertNotNull(game.getGamePlay());
         int numberOfPlayers = game.getGamePlay().getNumberOfCurrentPlayers();
-        assertEquals(4, numberOfPlayers);
+        assertEquals(2, numberOfPlayers);
     }
 }

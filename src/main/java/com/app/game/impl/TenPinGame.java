@@ -4,7 +4,7 @@ import com.app.display.GameDisplay;
 import com.app.game.Game;
 import com.app.gameplay.GamePlay;
 import com.app.gameplay.impl.TenPinGamePlay;
-import com.app.validator.Validator;
+import com.app.validator.GameValidator;
 import com.app.validator.impl.TenPinValidator;
 
 import java.util.Scanner;
@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class TenPinGame implements Game {
 
     private GameDisplay gameDisplay;
-    private Validator validator;
+    private GameValidator validator;
     private int numberOfCurrentPlayers;
     private Scanner keybordInput;
     private GamePlay gamePlay;
@@ -47,7 +47,6 @@ public class TenPinGame implements Game {
                 scanner.next();
             }
         }
-
         return scanner.nextInt();
     }
 
@@ -67,9 +66,6 @@ public class TenPinGame implements Game {
                 gameDisplay.requestNumberOfPlayers();
             }
         }
-
-        //TODO complete implementation of the selectNewGame method
-        System.out.println("The number of players has been provided");
         gamePlay = new TenPinGamePlay();
         gamePlay.setUpGamePlay(keybordInput, numberOfPlayers);
         gamePlay.startGamePlay();

@@ -5,12 +5,7 @@ import com.app.display.impl.TenPinGameDisplay;
 import com.app.game.Game;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -21,12 +16,10 @@ public class TenPinGameTest {
 
 
     Game game;
-    @Mock
     GameDisplay gameDisplay;
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayInputStream inputStream = new ByteArrayInputStream("4\n3\n1".getBytes());
-    @Rule public MockitoRule mockitoRule = MockitoJUnit.rule();
+    private final ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n4\n3\n1".getBytes());
 
 
     @Before
@@ -55,7 +48,9 @@ public class TenPinGameTest {
 
     @Test
     public void selectNewGame() {
+        game.startGame();
         game.selectNewGame();
         assertTrue(outContent.toString().contains("Give number of players between 1 and 4 inclusive"));
     }
+
 }

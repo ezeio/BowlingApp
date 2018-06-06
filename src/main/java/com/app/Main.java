@@ -26,7 +26,6 @@ public class Main {
         Game game = new TenPinGame();
         game.setGameDisplay(gameDisplay);
         game.startGame();
-
     }
 }
 

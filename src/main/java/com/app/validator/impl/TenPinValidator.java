@@ -1,8 +1,8 @@
 package com.app.validator.impl;
 
-import com.app.validator.Validator;
+import com.app.validator.GameValidator;
 
-public class TenPinValidator implements Validator {
+public class TenPinValidator implements GameValidator {
 
     private static final int MAX_NUMBER_OF_PLAYER = 4;
 
