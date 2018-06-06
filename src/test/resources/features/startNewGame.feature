@@ -1,3 +1,4 @@
+@completed
 Feature: select new game
   Background:
     Given The user is ready to start a new game

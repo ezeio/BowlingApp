@@ -1,11 +1,8 @@
 package stepDefinitions;
 
 import com.app.display.GameDisplay;
-import com.app.display.impl.TenPinGameDisplay;
 import com.app.game.Game;
-import com.app.game.impl.TenPinGame;
 import com.app.model.Player;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -13,24 +10,24 @@ import cucumber.api.java.en.When;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class AddANewPlayerException {
-    private Game game = new TenPinGame();
-    private GameDisplay gameDisplay = new TenPinGameDisplay();
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-    private ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n2\n2\nhenry\nozomena\n2\nhenry\nozomena\n".getBytes());
+
+    private Game game = BowlingAppHook.game;
+    private GameDisplay gameDisplay = BowlingAppHook.gameDisplay;
+    private ByteArrayOutputStream outContent = BowlingAppHook.outContent;
+    private ByteArrayOutputStream errContent = BowlingAppHook.errContent;
+    private ByteArrayInputStream inputStream = BowlingAppHook.inputStream;
+
 
     @Given("^I have started a new game$")
     public void iHaveStartedANewGame() throws Throwable {
-        System.setOut(new PrintStream(outContent));
-        System.setErr(new PrintStream(errContent));
+
+        inputStream = new ByteArrayInputStream("1\n2\n2\nola\nozo\n2\nola\nozo\n2\npipa\noyana\n".getBytes());
         System.setIn(inputStream);
-        game.setGameDisplay(gameDisplay);
         game.startGame();
     }
 
@@ -52,7 +49,7 @@ public class AddANewPlayerException {
     public void thePlayerAlreadyExistsInOneOfThePlayerLists() throws Throwable {
 
         Player[] players = game.getGamePlay().getCurrentPlayers();
-        assertTrue(players[0].equals(new Player("henry", "ozomena")));
+        assertTrue(players[0].equals(new Player("ola", "ozo")));
     }
 
     @Then("^I should be informed that the player already exists$")
@@ -62,8 +59,6 @@ public class AddANewPlayerException {
 
     @And("^I should be given the option to go back to the previous menu$")
     public void iShouldBeGivenTheOptionToGoBackToThePreviousMenu() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-       // throw new PendingException();
+        outContent.toString().contains("[cancel] back");
     }
-
 }

@@ -1,3 +1,4 @@
+@addPlayer
 Feature: Add new player exception
   Background:
     Given I have started a new game

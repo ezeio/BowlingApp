@@ -45,6 +45,7 @@ public class TenPinGamePlay implements GamePlay {
     @Override
     public void startGamePlay() {
 
+        getScanner().close();
     }
 
     @Override

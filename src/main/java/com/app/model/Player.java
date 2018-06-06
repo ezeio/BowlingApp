@@ -1,5 +1,7 @@
 package com.app.model;
 
+import java.util.Objects;
+
 public class Player {
 
     private String firstName;
@@ -32,5 +34,20 @@ public class Player {
     }
     public String getFormattedName() {
         return formattedName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Player)) return false;
+        Player player = (Player) o;
+        return Objects.equals(getFirstName(), player.getFirstName()) &&
+                Objects.equals(getLastName(), player.getLastName());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getFirstName(), getLastName());
     }
 }

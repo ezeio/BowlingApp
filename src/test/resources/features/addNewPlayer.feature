@@ -1,3 +1,4 @@
+@addPlayer
 Feature: Add new player
   Background:
     Given I have selected a new game

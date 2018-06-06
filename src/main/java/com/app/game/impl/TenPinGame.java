@@ -16,6 +16,7 @@ public class TenPinGame implements Game {
     private int numberOfCurrentPlayers;
     private Scanner keybordInput;
     private GamePlay gamePlay;
+    private Scanner scanner;
 
 
     public TenPinGame () {
@@ -72,11 +73,12 @@ public class TenPinGame implements Game {
     }
 
     private Scanner readKeyBoardInput() {
-        return new Scanner(System.in);
+        scanner = new Scanner(System.in);
+        return scanner;
     }
 
-    private void closeScanner(Scanner scanner){
-        scanner.close();
+    private void closeScanner(){
+        this.scanner.close();
     }
 
     private void mainMenuSelector(int selectedMenu){
@@ -106,6 +108,11 @@ public class TenPinGame implements Game {
     @Override
     public GamePlay getGamePlay() {
         return gamePlay;
+    }
+
+    @Override
+    public Scanner getScanner() {
+        return scanner;
     }
 
 }

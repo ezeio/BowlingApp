@@ -17,18 +17,14 @@ import static org.junit.Assert.assertTrue;
 
 public class NewGame {
 
-    private Game game = new TenPinGame();
-    private GameDisplay gameDisplay = new TenPinGameDisplay();
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-    private ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n2\n2\nhenry\nozomena\n2\nchinasa\nnwafor\n".getBytes());
+    private Game game = BowlingAppHook.game;
+    private final ByteArrayOutputStream outContent = BowlingAppHook.outContent;
+    private final ByteArrayOutputStream errContent = BowlingAppHook.errContent;
+    private ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n2\n2\nchi\ncici\n2\njawani\nnwafor\n".getBytes());
 
     @Given("^The user is ready to start a new game$")
     public void theUserIsReadyToStartANewGame() throws Throwable {
-        System.setOut(new PrintStream(outContent));
-        System.setErr(new PrintStream(errContent));
         System.setIn(inputStream);
-        game.setGameDisplay(gameDisplay);
         game.startGame();
 
     }
