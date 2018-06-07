@@ -10,6 +10,7 @@ public class TenPinGamePlayDisplay implements GamePlayDisplay {
 
     private List<String> playerDetailsMenu;
     private List<String> addNewPlayerMenu;
+    private List<String> existingPlayerMenu;
 
     public TenPinGamePlayDisplay(){
         setUpMenus();
@@ -18,10 +19,13 @@ public class TenPinGamePlayDisplay implements GamePlayDisplay {
     private void setUpMenus() {
         playerDetailsMenu = new ArrayList<>();
         addNewPlayerMenu = new ArrayList<>();
+        existingPlayerMenu = new ArrayList<>();
         playerDetailsMenu.add("[1] use existing player");
         playerDetailsMenu.add("[2] new player");
         addNewPlayerMenu.add("[A-Z a-z] input name");
         addNewPlayerMenu.add("[cancel] back");
+        existingPlayerMenu.add("[1 - *] select player");
+        existingPlayerMenu.add("[cancel] back");
     }
 
     @Override
@@ -82,7 +86,42 @@ public class TenPinGamePlayDisplay implements GamePlayDisplay {
     }
 
     @Override
+    public void existingPlayerMenu(Player[] existingPlayers) {
+        System.out.println("existing player(s) menu");
+        System.out.println();
+        System.out.println();
+        System.out.println();
+
+        for(int i = 0; i < existingPlayers.length; i++){
+            System.out.println("["+(i+1)+"] \t" + existingPlayers[i]);
+        }
+
+        System.out.println();
+        System.out.println();
+        System.out.println();
+
+        existingPlayerMenu.forEach((option -> System.out.print(option + "\t\t")));
+        System.out.println("\n\n");
+
+    }
+
+    @Override
     public void displayInvalidInputError() {
         System.err.println("Please provide a valid value");
+    }
+    @Override
+    public List<String> getExistingPlayerMenu() {
+        return existingPlayerMenu;
+    }
+
+    @Override
+    public void playerAlreadyAddedError() {
+        System.err.println("The player has already been added to the list\n" +
+                "");
+    }
+
+    @Override
+    public void selectValidOptionOrCancel() {
+        System.err.println("Please select a valid option or type cancel to quit");
     }
 }

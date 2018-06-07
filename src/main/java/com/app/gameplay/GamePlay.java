@@ -13,4 +13,6 @@ public interface GamePlay {
     void startGamePlay();
     void setUpPlayers(int numberOfPlayers);
     Player[] getCurrentPlayers();
+    void playerDetailsMenu();
+
 }

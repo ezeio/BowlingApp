@@ -16,5 +16,4 @@ public interface Game {
     void setGameDisplay(GameDisplay gameDisplay);
 
     GamePlay getGamePlay();
-    Scanner getScanner();
 }

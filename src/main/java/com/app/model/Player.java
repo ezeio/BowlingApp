@@ -50,4 +50,10 @@ public class Player {
 
         return Objects.hash(getFirstName(), getLastName());
     }
+
+
+    @Override
+    public String toString() {
+        return firstName + "\t" + lastName;
+    }
 }

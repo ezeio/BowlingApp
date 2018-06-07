@@ -4,44 +4,27 @@ import com.app.display.GameDisplay;
 import com.app.game.Game;
 import com.app.model.Player;
 import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class AddANewPlayerException {
 
     private Game game = BowlingAppHook.game;
-    private GameDisplay gameDisplay = BowlingAppHook.gameDisplay;
     private ByteArrayOutputStream outContent = BowlingAppHook.outContent;
-    private ByteArrayOutputStream errContent = BowlingAppHook.errContent;
     private ByteArrayInputStream inputStream = BowlingAppHook.inputStream;
 
 
-    @Given("^I have started a new game$")
-    public void iHaveStartedANewGame() throws Throwable {
-
+    @When("^I enter the player name$")
+    public void iEnterThePlayerName() throws Throwable {
         inputStream = new ByteArrayInputStream("1\n2\n2\nola\nozo\n2\nola\nozo\n2\npipa\noyana\n".getBytes());
         System.setIn(inputStream);
         game.startGame();
-    }
-
-    @And("^I have selected the number of players i desire$")
-    public void iHaveSelectedTheNumberOfPlayersIDesire() throws Throwable {
-        assertEquals(2,game.getGamePlay().getNumberOfCurrentPlayers());
-    }
-
-    @Then("^A request is made to add a new player$")
-    public void aRequestIsMadeToAddANewPlayer() throws Throwable {
-        assertTrue(outContent.toString().contains("[2] new player"));
-    }
-    @When("^I enter the player name$")
-    public void iEnterThePlayerName() throws Throwable {
         //Player name is already provided in the byte stream (for example henry ozomena)
     }
 
@@ -60,5 +43,32 @@ public class AddANewPlayerException {
     @And("^I should be given the option to go back to the previous menu$")
     public void iShouldBeGivenTheOptionToGoBackToThePreviousMenu() throws Throwable {
         outContent.toString().contains("[cancel] back");
+    }
+
+    @When("^I am asked for a name$")
+    public void iAmAskedForAName() throws Throwable {
+        inputStream = new ByteArrayInputStream("1\n2\n2\nnkem\ncancel\n2\nlalabi\nuche\n2\nozomena\nozomena\n".getBytes());
+        System.setIn(inputStream);
+        game.startGame();
+        assertTrue(outContent.toString().contains("[A-Z a-z] input name"));
+        assertTrue(outContent.toString().contains("nkem"));
+    }
+
+    @And("^I input cancel instead of a valid name$")
+    public void iInputCancelInsteadOfAValidName() throws Throwable {
+        //The cancel was inputted as the last name value in the byte stream
+    }
+
+    @Then("^I should be taken back to the provide player name menu$")
+    public void iShouldBeTakenBackToTheProvidePlayerNameMenu() throws Throwable {
+        boolean playerNotAdded = false;
+        for (Player aPlayer : game.getGamePlay().getCurrentPlayers()) {
+            if(aPlayer != null && aPlayer.equals(new Player("nkem","cancel"))){
+                playerNotAdded = true;
+            }
+        }
+        assertTrue(outContent.toString().contains("provide player names menu"));
+        assertFalse(playerNotAdded);
+
     }
 }

@@ -55,7 +55,7 @@ public class TenPinGamePlay implements GamePlay {
         //TODO STARTING GAME PLAY
     }
 
-    private void playerDetailsMenu(){
+    public void playerDetailsMenu(){
         boolean listIsFull = isCurrentPlayerListFull();
         if(listIsFull){
            gamePlayDisplay.displayPlayerDetailsMenu(currentPlayers, listIsFull);
@@ -72,7 +72,10 @@ public class TenPinGamePlay implements GamePlay {
     }
 
     private boolean isCurrentPlayerListFull() {
-        return currentPlayers[currentPlayers.length - 1] != null;
+        if(currentPlayers.length > 0 ){
+         return currentPlayers[currentPlayers.length - 1] != null;
+        }
+        return false;
     }
 
     private void providePlayerDetails(int input) {
@@ -85,8 +88,39 @@ public class TenPinGamePlay implements GamePlay {
     }
 
     private void useExistingPlayer() {
-        //TODO
-        System.out.println("No implementation yet");
+        int intInput = 0;
+        String stringInput = "";
+        boolean isValidInput;
+        Player[] existingPlayers = this.getExistingPlayers().stream().toArray(Player[]::new);
+        gamePlayDisplay.existingPlayerMenu(existingPlayers);
+
+        do {
+            if (getScanner().hasNextInt()) intInput = readIntInput();
+            if (!(intInput > 0) && getScanner().hasNext()) stringInput = readStringInput();
+            isValidInput = (intInput > 0 && intInput <= gamePlayDisplay.getExistingPlayerMenu().size())  || (stringInput.toLowerCase().equals("cancel"));
+            if(!isValidInput)gamePlayDisplay.selectValidOptionOrCancel();
+        } while (!isValidInput);
+        if(stringInput.equals("cancel")){playerDetailsMenu();return;}
+
+        Player player = existingPlayers[intInput-1];
+        addPlayerToCurrentList(player);
+        playerDetailsMenu();
+        System.out.println("TODO");//TODO
+    }
+
+    private void addPlayerToCurrentList(Player player) {
+        for (int i =  0; i < currentPlayers.length; i++){
+            if (currentPlayers[i] != null && currentPlayers[i].equals(player)) {
+
+                gamePlayDisplay.playerAlreadyAddedError();
+                return;
+            }
+        }
+        for(int i = 0; i < currentPlayers.length; i++){
+            if(currentPlayers[0] == null){
+                currentPlayers[0] = player;
+            }
+        }
     }
 
     private void addNewPlayer() {
@@ -94,13 +128,20 @@ public class TenPinGamePlay implements GamePlay {
         String lastName = null;
         gamePlayDisplay.addNewPlayerMenu(firstName, lastName);
         firstName = readStringInput();
+        if(isCanceled(firstName)){ playerDetailsMenu(); return;}
         gamePlayDisplay.addNewPlayerMenu(firstName,lastName);
         lastName = readStringInput();
+        if(isCanceled(lastName)){ playerDetailsMenu(); return;}
         gamePlayDisplay.addNewPlayerMenu(firstName,lastName);
         Player player = createNewPlayer(firstName, lastName);
         addPlayerToCurrentAndExistingList(player);
         playerDetailsMenu();
     }
+
+    private boolean isCanceled(String lastName) {
+        return lastName.toLowerCase().matches("cancel");
+    }
+
 
     private void addPlayerToCurrentAndExistingList(Player player) {
         if(getExistingPlayers().contains(player)){

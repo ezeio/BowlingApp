@@ -56,7 +56,7 @@ public class TenPinGame implements Game {
         gameDisplay.requestNumberOfPlayers();
         keybordInput.useDelimiter("\\n");
 
-        while (this.getNumberOfCurrentPlayers() < 1){
+        while (numberOfPlayers < 1){
             numberOfPlayers = readIntInput(keybordInput);
 
             if( validator.isNumberOfPlayersValid(numberOfPlayers)){
@@ -108,11 +108,6 @@ public class TenPinGame implements Game {
     @Override
     public GamePlay getGamePlay() {
         return gamePlay;
-    }
-
-    @Override
-    public Scanner getScanner() {
-        return scanner;
     }
 
 }

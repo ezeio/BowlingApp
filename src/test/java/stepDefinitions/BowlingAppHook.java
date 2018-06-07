@@ -18,7 +18,7 @@ public class BowlingAppHook {
     public static Game game;
     public static GameDisplay gameDisplay;
 
-    @Before
+    @Before()
     public void beforeScenario(){
         outContent = new ByteArrayOutputStream();
         errContent = new ByteArrayOutputStream();
@@ -30,7 +30,7 @@ public class BowlingAppHook {
         game.setGameDisplay(gameDisplay);
     }
 
-    @After
+    @After()
     public void afterScenario(){
         System.setOut(System.out);
         System.setErr(System.err);

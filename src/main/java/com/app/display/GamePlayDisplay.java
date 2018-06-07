@@ -17,4 +17,11 @@ public interface GamePlayDisplay {
     void addNewPlayerMenu(String firstName, String lastName);
 
     void duplicatePlayerNameError();
+
+    void existingPlayerMenu(Player[] tenPinGamePlay);
+    List<String> getExistingPlayerMenu();
+
+    void playerAlreadyAddedError();
+
+    void selectValidOptionOrCancel();
 }
