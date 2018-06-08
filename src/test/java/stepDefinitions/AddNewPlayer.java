@@ -21,7 +21,7 @@ public class AddNewPlayer {
     private GameDisplay gameDisplay = BowlingAppHook.gameDisplay;
     private ByteArrayOutputStream outContent = BowlingAppHook.outContent;
     private ByteArrayOutputStream errContent = BowlingAppHook.errContent;
-    private ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n2\n2\nhenry\nozomena\n2\nchinasa\nnwafor\n".getBytes());
+    private ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n1\n2\nhenry\nozomena\n2\nchinasa\nnwafor\n".getBytes());
 
     @Given("^I have selected a new game$")
     public void iHaveSelectedANewGame() throws Throwable {

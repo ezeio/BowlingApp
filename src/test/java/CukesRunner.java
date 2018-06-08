@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
         plugin = {"pretty"},
         glue = {"stepDefinitions"},
         strict = true,
-        tags = {"@completed,@addPlayer"})
+        tags = {"@strike"}) //{"@completed,@addPlayer"})
 public class CukesRunner {
 
 }

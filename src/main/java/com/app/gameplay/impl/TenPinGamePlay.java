@@ -3,6 +3,7 @@ package com.app.gameplay.impl;
 import com.app.display.GamePlayDisplay;
 import com.app.display.impl.TenPinGamePlayDisplay;
 import com.app.gameplay.GamePlay;
+import com.app.model.GameScore;
 import com.app.model.Player;
 import com.app.validator.GamePlayValidator;
 import com.app.validator.impl.TenPinGamePlayValidator;
@@ -16,7 +17,7 @@ public class TenPinGamePlay implements GamePlay {
     private GamePlayDisplay gamePlayDisplay;
     private GamePlayValidator gamePlayValidator;
     private static final Set<Player> existingPlayers = new HashSet<>();
-
+    private Map <Player, GameScore> currentGamePlayScore;
 
     public GamePlayValidator getGamePlayValidator() {
         return gamePlayValidator;
@@ -26,7 +27,7 @@ public class TenPinGamePlay implements GamePlay {
         this.gamePlayValidator = gamePlayValidator;
     }
 
-    public static Set<Player> getExistingPlayers() {
+    private static Set<Player> getExistingPlayers() {
         return existingPlayers;
     }
     @Override
@@ -35,6 +36,8 @@ public class TenPinGamePlay implements GamePlay {
     }
 
     public void setUpGamePlay(Scanner keyboardInput, int numberOfPlayers){
+        currentGamePlayScore = new HashMap<>();
+
         gamePlayValidator = new TenPinGamePlayValidator();
         setGamePlayDisplay(new TenPinGamePlayDisplay());
         setScanner(keyboardInput);
@@ -71,6 +74,13 @@ public class TenPinGamePlay implements GamePlay {
         providePlayerDetails(input);
     }
 
+    @Override
+    public GameScore getScore(Player player) {
+        if(getCurrentGamePlayScore().containsKey(player))return getCurrentGamePlayScore().get(player);
+
+        return null;
+    }
+
     private boolean isCurrentPlayerListFull() {
         if(currentPlayers.length > 0 ){
          return currentPlayers[currentPlayers.length - 1] != null;
@@ -91,7 +101,8 @@ public class TenPinGamePlay implements GamePlay {
         int intInput = 0;
         String stringInput = "";
         boolean isValidInput;
-        Player[] existingPlayers = this.getExistingPlayers().stream().toArray(Player[]::new);
+        //Player[] existingPlayers = TenPinGamePlay.getExistingPlayers().stream().toArray(Player[]::new);
+        Player[] existingPlayers = TenPinGamePlay.getExistingPlayers().toArray(new Player[TenPinGamePlay.getExistingPlayers().size()]);
         gamePlayDisplay.existingPlayerMenu(existingPlayers);
 
         do {
@@ -109,9 +120,15 @@ public class TenPinGamePlay implements GamePlay {
     }
 
     private void addPlayerToCurrentList(Player player) {
-        for (int i =  0; i < currentPlayers.length; i++){
-            if (currentPlayers[i] != null && currentPlayers[i].equals(player)) {
-
+//        for (int i =  0; i < currentPlayers.length; i++){
+//            if (currentPlayers[i] != null && currentPlayers[i].equals(player)) {
+//
+//                gamePlayDisplay.playerAlreadyAddedError();
+//                return;
+//            }
+//        }
+        for (Player aPlayer : currentPlayers) {
+            if(aPlayer != null && aPlayer.equals(player)){
                 gamePlayDisplay.playerAlreadyAddedError();
                 return;
             }
@@ -222,5 +239,13 @@ public class TenPinGamePlay implements GamePlay {
             }
         }
         return scanner.nextInt();
+    }
+
+    public Map<Player, GameScore> getCurrentGamePlayScore() {
+        return currentGamePlayScore;
+    }
+
+    public void setCurrentGamePlayScore(Map<Player, GameScore> currentGamePlayScore) {
+        this.currentGamePlayScore = currentGamePlayScore;
     }
 }

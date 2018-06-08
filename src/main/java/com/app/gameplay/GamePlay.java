@@ -1,10 +1,8 @@
 package com.app.gameplay;
 
+import com.app.model.GameScore;
 import com.app.model.Player;
-
-import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 public interface GamePlay {
 
@@ -14,5 +12,5 @@ public interface GamePlay {
     void setUpPlayers(int numberOfPlayers);
     Player[] getCurrentPlayers();
     void playerDetailsMenu();
-
+    GameScore getScore(Player player);
 }
