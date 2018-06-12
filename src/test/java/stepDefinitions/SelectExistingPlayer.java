@@ -16,7 +16,8 @@ import static org.junit.Assert.assertTrue;
 
 public class SelectExistingPlayer {
 
-    private Game game = BowlingAppHook.game;
+    BowlingAppHook hook = new BowlingAppHook();
+    private Game game = hook.game;
     private ByteArrayOutputStream outContent = BowlingAppHook.outContent;
     private ByteArrayInputStream inputStream = BowlingAppHook.inputStream;
 

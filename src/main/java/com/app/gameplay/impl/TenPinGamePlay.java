@@ -3,7 +3,7 @@ package com.app.gameplay.impl;
 import com.app.display.GamePlayDisplay;
 import com.app.display.impl.TenPinGamePlayDisplay;
 import com.app.gameplay.GamePlay;
-import com.app.model.GameScore;
+import com.app.model.TenPinGameScore;
 import com.app.model.Player;
 import com.app.validator.GamePlayValidator;
 import com.app.validator.impl.TenPinGamePlayValidator;
@@ -17,7 +17,8 @@ public class TenPinGamePlay implements GamePlay {
     private GamePlayDisplay gamePlayDisplay;
     private GamePlayValidator gamePlayValidator;
     private static final Set<Player> existingPlayers = new HashSet<>();
-    private Map <Player, GameScore> currentGamePlayScore;
+    private Map <Player, TenPinGameScore> currentGamePlayScore;
+    private static final int NUMBER_OF_FRAMES = 10;
 
     public GamePlayValidator getGamePlayValidator() {
         return gamePlayValidator;
@@ -37,32 +38,83 @@ public class TenPinGamePlay implements GamePlay {
 
     public void setUpGamePlay(Scanner keyboardInput, int numberOfPlayers){
         currentGamePlayScore = new HashMap<>();
-
         gamePlayValidator = new TenPinGamePlayValidator();
         setGamePlayDisplay(new TenPinGamePlayDisplay());
         setScanner(keyboardInput);
         getScanner().useDelimiter("\n");
         setUpPlayers(numberOfPlayers);
+        setUpScoreboard();
+
+
+    }
+
+    private void setUpScoreboard() {
+
+        for (Player player : this.getCurrentPlayers()) {
+            this.getCurrentGamePlayScore().put(player, new TenPinGameScore(NUMBER_OF_FRAMES));
+        }
+    }
+
+    private void endGamePlay(){
+
+    }
+
+    public boolean isStartGameSelected() {
+        gamePlayDisplay.startOrEndGameMsg();
+        String result = readStringInput();
+        while (!(result.equals("yes") || result.equals("no"))){
+            gamePlayDisplay.displayInvalidInputError();
+            result = readStringInput();
+        }
+        return result.equalsIgnoreCase("yes");
     }
 
     @Override
     public void startGamePlay() {
+        TenPinGameScore gameScore = null;
+        int pinsDown;
+        int maxPinsPerFrame = 10;
 
-        getScanner().close();
+        for (int frameNum = 1; frameNum < NUMBER_OF_FRAMES; frameNum++) {
+
+            for (int player = 0; player < currentPlayers.length; player++ ){
+                int frameIndex = frameNum -1;
+                System.out.println(currentPlayers[player].getFormattedName()+ ""+" is playing");
+                gameScore = currentGamePlayScore.get(currentPlayers[0]);
+                while (!gameScore.isNextPlayerTurn(frameIndex)){
+                    pinsDown = bowl(maxPinsPerFrame);
+
+                    gameScore.calculate(frameIndex, pinsDown);
+                }
+                maxPinsPerFrame = 10;
+            }
+
+        }
+
+        System.out.println("TODO: starting game");
+        //TODO STARTING GAME PLAY
+    }
+
+    private int bowl(int maxPinsPerFrame) {
+        int pinsDown = readIntInput();
+        while (!(pinsDown > -1 && pinsDown <= maxPinsPerFrame)){
+            //Display message to knock down the correct number of pins
+            System.out.println("knock down the right number of pins");
+        }
+        return pinsDown;
     }
 
     @Override
     public void setUpPlayers(int numberOfPlayers) {
         setCurrentPlayers(new Player[numberOfPlayers]);
         playerDetailsMenu();
-        //TODO STARTING GAME PLAY
     }
 
     public void playerDetailsMenu(){
         boolean listIsFull = isCurrentPlayerListFull();
         if(listIsFull){
-           gamePlayDisplay.displayPlayerDetailsMenu(currentPlayers, listIsFull);
-           return;
+            gamePlayDisplay.displayPlayerDetailsMenu(currentPlayers, listIsFull);
+            return;
         }
         gamePlayDisplay.displayPlayerDetailsMenu(currentPlayers, listIsFull);
         int input = readIntInput();
@@ -75,7 +127,7 @@ public class TenPinGamePlay implements GamePlay {
     }
 
     @Override
-    public GameScore getScore(Player player) {
+    public TenPinGameScore getScore(Player player) {
         if(getCurrentGamePlayScore().containsKey(player))return getCurrentGamePlayScore().get(player);
 
         return null;
@@ -83,7 +135,7 @@ public class TenPinGamePlay implements GamePlay {
 
     private boolean isCurrentPlayerListFull() {
         if(currentPlayers.length > 0 ){
-         return currentPlayers[currentPlayers.length - 1] != null;
+            return currentPlayers[currentPlayers.length - 1] != null;
         }
         return false;
     }
@@ -101,7 +153,6 @@ public class TenPinGamePlay implements GamePlay {
         int intInput = 0;
         String stringInput = "";
         boolean isValidInput;
-        //Player[] existingPlayers = TenPinGamePlay.getExistingPlayers().stream().toArray(Player[]::new);
         Player[] existingPlayers = TenPinGamePlay.getExistingPlayers().toArray(new Player[TenPinGamePlay.getExistingPlayers().size()]);
         gamePlayDisplay.existingPlayerMenu(existingPlayers);
 
@@ -241,11 +292,11 @@ public class TenPinGamePlay implements GamePlay {
         return scanner.nextInt();
     }
 
-    public Map<Player, GameScore> getCurrentGamePlayScore() {
+    public Map<Player, TenPinGameScore> getCurrentGamePlayScore() {
         return currentGamePlayScore;
     }
 
-    public void setCurrentGamePlayScore(Map<Player, GameScore> currentGamePlayScore) {
+    public void setCurrentGamePlayScore(Map<Player, TenPinGameScore> currentGamePlayScore) {
         this.currentGamePlayScore = currentGamePlayScore;
     }
 }

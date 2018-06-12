@@ -69,7 +69,8 @@ public class TenPinGame implements Game {
         }
         gamePlay = new TenPinGamePlay();
         gamePlay.setUpGamePlay(keybordInput, numberOfPlayers);
-        gamePlay.startGamePlay();
+        if (gamePlay.isStartGameSelected())gamePlay.startGamePlay();
+
     }
 
     private Scanner readKeyBoardInput() {

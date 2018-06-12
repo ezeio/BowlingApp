@@ -24,4 +24,6 @@ public interface GamePlayDisplay {
     void playerAlreadyAddedError();
 
     void selectValidOptionOrCancel();
+
+    void startOrEndGameMsg();
 }

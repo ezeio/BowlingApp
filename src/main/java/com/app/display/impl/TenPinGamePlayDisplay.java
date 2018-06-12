@@ -45,12 +45,14 @@ public class TenPinGamePlayDisplay implements GamePlayDisplay {
             }
         }
         System.out.println();
-        if(listIsFull){
+        /*if(listIsFull){
             System.out.println("loading game ....... .. .. . .. .");
             return;
+        }*/
+        if(!listIsFull){
+            playerDetailsMenu.forEach((option -> System.out.print(option+"\t\t")));
+            System.out.println();
         }
-        playerDetailsMenu.forEach((option -> System.out.print(option+"\t\t")));
-        System.out.println();
     }
 
     public List<String> getPlayerDetailsMenu() {
@@ -123,5 +125,11 @@ public class TenPinGamePlayDisplay implements GamePlayDisplay {
     @Override
     public void selectValidOptionOrCancel() {
         System.err.println("Please select a valid option or type cancel to quit");
+    }
+
+    @Override
+    public void startOrEndGameMsg() {
+        System.out.println("\n\n");
+        System.out.println("[yes] start game [no] end game");
     }
 }

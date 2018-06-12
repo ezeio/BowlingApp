@@ -15,7 +15,7 @@ public class BowlingAppHook {
     public static ByteArrayOutputStream outContent;
     public static ByteArrayOutputStream errContent;
     public static ByteArrayInputStream inputStream;
-    public static Game game;
+    public Game game = new TenPinGame();
     public static GameDisplay gameDisplay;
 
     @Before()
@@ -35,5 +35,6 @@ public class BowlingAppHook {
         System.setOut(System.out);
         System.setErr(System.err);
         System.setIn(System.in);
+        game = null;
     }
 }

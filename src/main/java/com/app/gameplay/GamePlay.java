@@ -1,6 +1,6 @@
 package com.app.gameplay;
 
-import com.app.model.GameScore;
+import com.app.model.TenPinGameScore;
 import com.app.model.Player;
 import java.util.Scanner;
 
@@ -12,5 +12,6 @@ public interface GamePlay {
     void setUpPlayers(int numberOfPlayers);
     Player[] getCurrentPlayers();
     void playerDetailsMenu();
-    GameScore getScore(Player player);
+    TenPinGameScore getScore(Player player);
+    boolean isStartGameSelected();
 }

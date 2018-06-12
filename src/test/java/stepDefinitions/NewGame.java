@@ -16,8 +16,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class NewGame {
-
-    private Game game = BowlingAppHook.game;
+    BowlingAppHook hook = new BowlingAppHook();
+    private Game game = hook.game;
     private final ByteArrayOutputStream outContent = BowlingAppHook.outContent;
     private final ByteArrayOutputStream errContent = BowlingAppHook.errContent;
     private ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n2\n2\nchi\ncici\n2\njawani\nnwafor\n".getBytes());

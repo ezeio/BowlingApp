@@ -17,8 +17,8 @@ import static org.junit.Assert.assertTrue;
 public class AddNewPlayer {
 
 
-    private Game game = BowlingAppHook.game;
-    private GameDisplay gameDisplay = BowlingAppHook.gameDisplay;
+    BowlingAppHook hook = new BowlingAppHook();
+    private Game game = hook.game;
     private ByteArrayOutputStream outContent = BowlingAppHook.outContent;
     private ByteArrayOutputStream errContent = BowlingAppHook.errContent;
     private ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n1\n2\nhenry\nozomena\n2\nchinasa\nnwafor\n".getBytes());
