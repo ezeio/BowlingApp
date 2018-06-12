@@ -4,20 +4,24 @@ public class Frame {
 
     private int firstRoll;
     private int secondRoll;
+    private int thirdRoll;
     private int totalFrameScore;
     private int bonusScore;
     private boolean isStrike;
     private boolean isSpare;
     private boolean showScore;
     private GameScore tenPinGameScore;
+    private final int TEN = 10;
+    private final int MINUS_ONE = -1;
 
     public void setTotalFrameScore(int totalFrameScore) {
         this.totalFrameScore = totalFrameScore;
     }
 
     public Frame(GameScore tenPinGameScore){
-        setFirstRoll(-1);
-        setSecondRoll(-1);
+        setFirstRoll(MINUS_ONE);
+        setSecondRoll(MINUS_ONE);
+        setBonusScore(MINUS_ONE);
         this.tenPinGameScore = tenPinGameScore;
 
     }
@@ -42,44 +46,57 @@ public class Frame {
     }
 
     public boolean isBowled() {
-        if(isStrike() || getSecondRoll() != -1){
+        boolean isBowledFrame = isStrike() || getSecondRoll() != MINUS_ONE;
+        if(isBowledFrame && !tenPinGameScore.isLastFrame()){
             return true;
         }
+        else if(getBonusScore() == 0){return true;}
         return false;
     }
 
     private boolean isStrike() {
 
-        return getFirstRoll() == 10;
+        return getFirstRoll() == TEN;
     }
 
     public void setScore(int pinsDown) {
-        if (getFirstRoll() == -1) {
+
+        if (getFirstRoll() == MINUS_ONE) {
             setFirstRoll(pinsDown);
-            if(pinsDown == 10){
+            if(pinsDown == TEN){
                 setStrike(true);
-                setTotalFrameScore(getTotalFrameScore() + 10);
+                setTotalFrameScore(getTotalFrameScore() + TEN);
                 setBonusScore(2);
             }
             return;
 
         }
-        if (getSecondRoll() == -1 && !isStrike){
+        if (getSecondRoll() == MINUS_ONE && !isStrike){
             setSecondRoll(pinsDown);
-            if(getFirstRoll() + getSecondRoll() == 10){
+            if(getFirstRoll() + getSecondRoll() == TEN){
                 setSpare(true);
-                setTotalFrameScore(getTotalFrameScore() + 10);
+                setTotalFrameScore(getTotalFrameScore() + TEN);//TODO ?
                 setBonusScore(1);
             }
             return;
         }
+//        else if(getSecondRoll() == MINUS_ONE && isStrike && tenPinGameScore.isLastFrame()){
+//            setSecondRoll(pinsDown);
+//        }
+//
+//        if(tenPinGameScore.isLastFrame() && getSecondRoll() != MINUS_ONE){
+//            setThirdRoll(pinsDown);
+//            setTotalFrameScore(getTotalFrameScore() + pinsDown);
+//        }
+
+        updateTotalScore(pinsDown);
     }
 
     public void updateTotalScore(int pinsDown) {
         //TODO
         setTotalFrameScore(getTotalFrameScore() + pinsDown);
         showTotalScore(pinsDown);
-        setBonusScore(getBonusScore()-1);
+        setBonusScore(getBonusScore() -1);
 
         if(isCalculated()){
             int totalScore = tenPinGameScore.getTotalScore();
@@ -100,10 +117,10 @@ public class Frame {
     }
 
     public boolean isCalculated(int frameNum) {
-        return getBonusScore() == 0 && getFirstRoll() != -1;
+        return getBonusScore() == 0 && getFirstRoll() != MINUS_ONE;
     }
     public boolean isCalculated() {
-        return getBonusScore() == 0 && getFirstRoll() != -1;
+        return getBonusScore() == 0 && getFirstRoll() != MINUS_ONE;
     }
 
 
@@ -141,6 +158,14 @@ public class Frame {
 
     public void setTenPinGameScore(GameScore tenPinGameScore) {
         this.tenPinGameScore = tenPinGameScore;
+    }
+
+    public int getThirdRoll() {
+        return thirdRoll;
+    }
+
+    public void setThirdRoll(int thirdRoll) {
+        this.thirdRoll = thirdRoll;
     }
 }
 

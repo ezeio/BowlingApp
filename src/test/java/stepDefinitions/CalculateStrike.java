@@ -18,16 +18,24 @@ import static org.junit.Assert.assertNotEquals;
 public class CalculateStrike {
 
     BowlingAppHook hook = new BowlingAppHook();
-    private Game game = hook.game;
-    private GameDisplay gameDisplay = BowlingAppHook.gameDisplay;
+    private Game game = BowlingAppHook.game;
+    String firstName = BowlingAppHook.nameGenerator();
+    String lastName = BowlingAppHook.nameGenerator();
+    StringBuilder playerInput = new StringBuilder();
     private ByteArrayOutputStream outContent = BowlingAppHook.outContent;
     private ByteArrayOutputStream errContent = BowlingAppHook.errContent;
-    private ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n1\n2\nmike\ntyson\nyes\n10\n10\n10\n10\n10\n10\n10\n10\n10\n10\n10\n10\n10\n".getBytes());
-    private Player player = new Player("mike","tyson");
+    private Player player = new Player(firstName,lastName);
+    private ByteArrayInputStream inputStream;
 
     @Given("^I start a new game with a single player$")
     public void iStartANewGameWithASinglePlayer() throws Throwable {
-        game.setGameDisplay(gameDisplay);
+        playerInput.append("1\n1\n2\n");
+        playerInput.append(firstName);
+        playerInput.append("\n");
+        playerInput.append(lastName);
+        playerInput.append("\nyes\n");
+        playerInput.append("10\n10\n10\n10\n10\n10\n10\n10\n10\n10\n10\n10\n10\n");
+        inputStream = new ByteArrayInputStream(playerInput.toString().getBytes());
         System.setIn(inputStream);
         game.startGame();
     }
@@ -35,15 +43,15 @@ public class CalculateStrike {
     @Given("^I roll the bowling ball as my first roll on a \"([^\"]*)\"$")
     public void iRollTheBowlingBallAsMyFirstRollOnA(String frameNum) throws Throwable {
         Frame aFrame = game.getGamePlay().getScore(player).getFrame(Integer.parseInt(frameNum));
-        assertNotEquals( aFrame.getFirstRoll(), -1);
-        assertEquals(aFrame.getSecondRoll(),-1);
+        assertNotEquals( -1, aFrame.getFirstRoll());
+        assertEquals(-1, aFrame.getSecondRoll());
     }
 
 
     @When("^I \"([^\"]*)\" ten pins for that \"([^\"]*)\"$")
     public void iTenPinsForThat(String hit, String frameNum) throws Throwable {
         Frame aFrame = game.getGamePlay().getScore(player).getFrame(Integer.parseInt(frameNum));
-        assertEquals(aFrame.getFirstRoll(), Integer.parseInt(hit));
+        assertEquals(Integer.parseInt(hit), aFrame.getFirstRoll());
     }
 
 
@@ -51,6 +59,6 @@ public class CalculateStrike {
     @Then("^the \"([^\"]*)\" \"([^\"]*)\" is ten plus the score of my next two rolls$")
     public void theIsTenPlusTheScoreOfMyNextTwoRolls(String frameNum, String score) throws Throwable {
         Frame aFrame = game.getGamePlay().getScore(player).getFrame(Integer.parseInt(frameNum));
-        assertEquals(aFrame.getTotalFrameScore(), Integer.parseInt(score));
+        assertEquals(Integer.parseInt(score), aFrame.getTotalFrameScore());
     }
 }

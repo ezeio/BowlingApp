@@ -75,7 +75,7 @@ public class TenPinGamePlay implements GamePlay {
         int pinsDown;
         int maxPinsPerFrame = 10;
 
-        for (int frameNum = 1; frameNum < NUMBER_OF_FRAMES; frameNum++) {
+        for (int frameNum = 1; frameNum <= NUMBER_OF_FRAMES; frameNum++) {
 
             for (int player = 0; player < currentPlayers.length; player++ ){
                 int frameIndex = frameNum -1;

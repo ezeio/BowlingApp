@@ -4,6 +4,7 @@ public class TenPinGameScore implements GameScore{
 
     private Frame[] frames;
     private int totalScore;
+    private boolean isLastFrame;
 
 
 
@@ -20,7 +21,6 @@ public class TenPinGameScore implements GameScore{
 
     @Override
     public void calculate(int frameNum, int pinsDown) {
-        //frameNum = frameNum -1;
         if( frameNum < 0 || frames[frameNum].isCalculated(frameNum))return;
 
         setScore(frameNum, pinsDown);
@@ -31,7 +31,7 @@ public class TenPinGameScore implements GameScore{
     private void setScore(int frameNum, int pinsDown) {
         Frame frame = frames[frameNum];
         frame.setScore(pinsDown);
-        frame.updateTotalScore(pinsDown);
+        //frame.updateTotalScore(pinsDown);
 
     }
 
@@ -45,6 +45,7 @@ public class TenPinGameScore implements GameScore{
 
 
     public boolean isNextPlayerTurn(int frameNum) {
+        setIsLastFrame(frameNum);
         return frames[frameNum].isBowled();
     }
 
@@ -56,5 +57,18 @@ public class TenPinGameScore implements GameScore{
     @Override
     public void setTotalScore(int totalScore) {
         this.totalScore = totalScore;
+    }
+
+    public Frame[] getFrames() {
+        return frames;
+    }
+
+    public void setIsLastFrame(int frameIndex) {
+        isLastFrame = getFrames().length - 1 == frameIndex?true:false;
+    }
+
+    @Override
+    public boolean isLastFrame() {
+        return isLastFrame;
     }
 }

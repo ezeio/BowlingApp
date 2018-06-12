@@ -10,12 +10,13 @@ import cucumber.api.java.Before;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Random;
 
 public class BowlingAppHook {
     public static ByteArrayOutputStream outContent;
     public static ByteArrayOutputStream errContent;
     public static ByteArrayInputStream inputStream;
-    public Game game = new TenPinGame();
+    public static Game game;
     public static GameDisplay gameDisplay;
 
     @Before()
@@ -30,11 +31,23 @@ public class BowlingAppHook {
         game.setGameDisplay(gameDisplay);
     }
 
+    public static String nameGenerator() {
+        String nameChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        Random random = new Random();
+        StringBuilder randomName = new StringBuilder();
+        int charValues;
+        while (randomName.length() < 9){
+            charValues = random.nextInt(nameChar.length()) + 0 ;
+            System.out.println("Index value " + (int)random.nextFloat() + charValues);
+            randomName.append(nameChar.charAt(charValues));
+        }
+        return randomName.toString();
+    }
+
     @After()
     public void afterScenario(){
         System.setOut(System.out);
         System.setErr(System.err);
         System.setIn(System.in);
-        game = null;
     }
 }
